@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 ## reference image
- <img  width="800" src="https://github.com/LokeshJawale1996/easfdd/blob/main/images/TodoApp.png">
+ <img  width="800" src="https://github.com/LokeshJawale1996/easfdd/blob/main/images/todo%20template%20demo.png">
 
 ## Available Scripts
 
