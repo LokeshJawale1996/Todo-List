@@ -8,42 +8,42 @@ function Todo() {
   const [inputVal, setinputVal] = useState("");
   const [edit, setEdit] = useState(false);
   const [indexToEdit, setIndexToEdit] = useState(null);
-  const [timeVal, setTimeVal] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // setTimeVal(time);
-
     if (inputVal === "") {
+      //this statment not allows empty todo
+
       return;
     }
 
+    //if edit is true then this statment works
     if (edit) {
       const newTodos = [...todos];
       newTodos[indexToEdit] = inputVal;
       setTodos(newTodos);
       setEdit(false);
     } else {
+      //if edit is false then this works
       setTodos([...todos, inputVal]);
     }
     setinputVal("");
   };
+
+  //this function set the input value in state.
   const handleInput = (e) => {
     setinputVal(e.target.value);
-    var d = new Date();
-    let s = d.getSeconds();
-    let m = d.getMinutes();
-    let h = d.getHours();
-    setTimeVal(`${h}:${m}:${s}`);
   };
 
+  //this function receives index of current todo and edit the todo
   const handleEditTodo = (index) => {
     setinputVal(todos[index]);
     setEdit(true);
     setIndexToEdit(index);
   };
 
+  //this function delete todo from todos array
   const handleDeleteTodo = (index) => {
     setTodos(todos.filter((_, ind) => ind !== index));
   };
@@ -76,20 +76,19 @@ function Todo() {
           </a>
         </div>
         <div className="flex">
-        <button
-          className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          onClick={handleSaveTodos}
-        >
-          Save
-        </button>
-        <button
-          className="text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2"
-          onClick={handleClearAllTodo}
-        >
-          Clear
-        </button>
+          <button
+            className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            onClick={handleSaveTodos}
+          >
+            Save
+          </button>
+          <button
+            className="text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+            onClick={handleClearAllTodo}
+          >
+            Clear
+          </button>
         </div>
-       
       </nav>
       {/* on submiiting form handleSubmit event fires */}
       <form
@@ -104,13 +103,13 @@ function Todo() {
           value={inputVal}
           onChange={handleInput}
         />
+
         <button
           className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           type="submit"
         >
           {edit ? "Update" : "Add"}
         </button>
-       
       </form>
       <div>
         <ul className="w-5/12 mx-auto">
