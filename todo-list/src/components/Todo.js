@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Edit from "./images/1.jpg";
 import Delete from "./images/delete.jpg";
 import Logo from "./images/logo2.jpg";
-
+import './todo.css'
 function Todo() {
   const [todos, setTodos] = useState([]);
   const [inputVal, setinputVal] = useState("");
@@ -69,7 +69,7 @@ function Todo() {
     }
   }, []);
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto" id="todo">
       <nav className="bg-blue-100 border-red-200 px-2 sm:px-4 py-4 rounded dark:bg-gray-900 text-center flex">
         <div className="mx-auto flex w-4/5">
           <a href="https://flowbite.com/" className="flex items-center">
@@ -121,7 +121,7 @@ function Todo() {
           {edit ? "Update" : "Add"}
         </button>
       </form>
-      <div>
+      <div className="">
         <ul className="w-5/12 mx-auto">
           {todos.map((todo, index) => (
             <li
