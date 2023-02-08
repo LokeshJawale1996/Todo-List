@@ -2,19 +2,28 @@ import React, { useState, useEffect } from "react";
 import Edit from "./images/1.jpg";
 import Delete from "./images/delete.jpg";
 import Logo from "./images/logo2.jpg";
-import './todo.css'
+import Success from "./images/Success.jpg";
+import Save from "./images/save.jpg";
+import Reset from "./images/reset.jpg";
+
+import "./todo.css";
 function Todo() {
   const [todos, setTodos] = useState([]);
   const [inputVal, setinputVal] = useState("");
   const [edit, setEdit] = useState(false);
   const [indexToEdit, setIndexToEdit] = useState(null);
+  const [showCartMsg, setshowCartMsg] = useState(false);
+  const [showSaveMsg, setShowSaveMsg] = useState(false);
+  const [showClearMsg, setShowClearMsg] = useState(false);
+  const [showDeleteMsg, setShowDeleteMsg] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (inputVal === "") {
       //this statment not allows empty todo
-
+      setshowCartMsg(false);
+      setShowSaveMsg(false);
       return;
     }
 
@@ -29,6 +38,12 @@ function Todo() {
       setTodos([...todos, inputVal]);
     }
     setinputVal("");
+
+    setshowCartMsg(true);
+    const timer1 = setTimeout(() => {
+      setshowCartMsg(false);
+    }, 500);
+    return () => clearTimeout(timer1);
   };
 
   //this function set the input value in state.
@@ -46,16 +61,35 @@ function Todo() {
   //this function delete todo from todos array
   const handleDeleteTodo = (index) => {
     setTodos(todos.filter((_, ind) => ind !== index));
+
+    setShowDeleteMsg(true);
+    const timer4 = setTimeout(() => {
+      setShowDeleteMsg(false);
+    }, 500);
+    return () => clearTimeout(timer4);
   };
   //On clicking Save Button
   const handleSaveTodos = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
+
+    setShowSaveMsg(true);
+
+    const timer2 = setTimeout(() => {
+      setShowSaveMsg(false);
+    }, 500);
+    return () => clearTimeout(timer2);
   };
 
   //On Clicking Clear Button
   const handleClearAllTodo = () => {
-    setTodos([]);
-    localStorage.removeItem("todos");
+    setShowClearMsg(true);
+    const timer3 = setTimeout(() => {
+      setTodos([]);
+      localStorage.removeItem("todos");
+
+      setShowClearMsg(false);
+    }, 500);
+    return () => clearTimeout(timer3);
   };
 
   //On clicking we are loading saved todo-list
@@ -68,6 +102,82 @@ function Todo() {
       setTodos(JSON.parse(savedTodos));
     }
   }, []);
+
+  // showing success message while todo added
+  const ShowTodoAddedMsg = () => {
+    return (
+      <div
+        className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-2 py-1 shadow-md sticky w-1/3"
+        role="alert"
+      >
+        <div class="flex items-center gap-x-8">
+          <div class="py-1">
+            <img className="w-8 h-8" src={Success} />
+          </div>
+          <div>
+            <p className="font-extrabold">Todo is Added Successfully!!</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // showing success message while todo saved
+  const ShowTodoSavedMsg = () => {
+    return (
+      <div
+        className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-2 py-1 shadow-md sticky w-1/3 right-0"
+        role="alert"
+      >
+        <div class="flex items-center gap-x-8">
+          <div class="py-1">
+            <img className="w-8 h-8" src={Save} />
+          </div>
+          <div>
+            <p className="font-extrabold">Todo is Saved Successfully!!</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // showing message while todo cleared
+  const ShowTodoClearMsg = () => {
+    return (
+      <div
+        className="bg-teal-100 border-t-4 border-blue-400 rounded-b text-teal-900 px-2 py-1 shadow-md sticky w-1/3 right-0"
+        role="alert"
+      >
+        <div class="flex items-center gap-x-8">
+          <div class="py-1">
+            <img className="w-8 h-8" src={Reset} />
+          </div>
+          <div>
+            <p className="font-extrabold">Todo's is Cleard Successfully!!</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // showing message while todo deleted
+  const ShowTodoDeleteMsg = () => {
+    return (
+      <div
+        className="bg-teal-100 border-t-4 border-blue-400 rounded-b text-teal-900 px-2 py-1 shadow-md sticky w-1/3 right-0"
+        role="alert"
+      >
+        <div class="flex items-center gap-x-8">
+          <div class="py-1">
+            <img className="w-8 h-8" src={Success} />
+          </div>
+          <div>
+            <p className="font-extrabold">Todo is Deleted Successfully!!</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
   return (
     <section className="container mx-auto" id="todo">
       <nav className="bg-blue-100 border-red-200 px-2 sm:px-4 py-4 rounded dark:bg-gray-900 text-center flex">
@@ -100,6 +210,11 @@ function Todo() {
           </button>
         </div>
       </nav>
+      {showCartMsg && <ShowTodoAddedMsg />}
+      {showSaveMsg && todos.length > 0 && <ShowTodoSavedMsg />}
+      {showClearMsg && todos.length > 0 && <ShowTodoClearMsg />}
+      {showDeleteMsg && <ShowTodoDeleteMsg />}
+
       {/* on submiiting form handleSubmit event fires */}
       <form
         onSubmit={handleSubmit}
